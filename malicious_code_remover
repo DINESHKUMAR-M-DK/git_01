@@ -1,0 +1,37 @@
+import re
+# Sample website content with a potential XSS attack
+website_content = """
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Website</title>
+</head>
+<body>
+<h1>Welcome to my website</h1>
+<p>This is a safe paragraph.</p>
+<script>alert('This is a malicious script!');</script>
+<p>Another safe paragraph.</p>
+</body>
+</html>
+"""
+
+# Regular expression pattern to detect and remove script tags
+pattern = r'<script>.*?</script>'
+
+# Function to detect and remove malicious code
+def remove_malicious_code(content):
+    # Use regular expressions to find script tags
+script_tags = re.findall(pattern, content, re.DOTALL)
+
+    if script_tags:
+        # If malicious code is found, remove it
+        for script_tag in script_tags:
+            content = content.replace(script_tag, "")
+
+    return content
+
+# Detect and remove malicious code
+cleaned_content = remove_malicious_code(website_content)
+
+# Display the cleaned content
+print(cleaned_content)
